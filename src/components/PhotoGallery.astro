@@ -1,0 +1,66 @@
+---
+import Icons from "./Icons.astro";
+import { galleryImages } from "../data/content";
+---
+
+<section class="container mx-auto px-4 pb-8">
+  <h3 class="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">Photo Gallery</h3>
+  <div class="columns-1 gap-4 sm:columns-2 md:columns-3 lg:columns-4" data-gallery>
+    {
+      galleryImages.map((image, index) => (
+        <button type="button" class="mb-4 block w-full overflow-hidden rounded-lg transition-all hover:opacity-90" data-open={index}>
+          <img src={image.src} alt={image.alt} class="w-full cursor-pointer object-cover" loading="lazy" />
+        </button>
+      ))
+    }
+  </div>
+</section>
+
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 p-4" data-lightbox>
+  <button type="button" class="absolute right-4 top-4 rounded-full bg-black/50 p-2 text-white backdrop-blur-sm hover:bg-black/70" data-close aria-label="Close">
+    <Icons name="x" class="h-6 w-6" />
+  </button>
+  <img src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain" data-lightbox-image />
+</div>
+
+<script>
+  import { galleryImages } from "../data/content";
+
+  const lightbox = document.querySelector<HTMLElement>("[data-lightbox]");
+  const image = document.querySelector<HTMLImageElement>("[data-lightbox-image]");
+  let current = 0;
+
+  const open = (index: number) => {
+    current = index;
+    if (image) {
+      image.src = galleryImages[index].src;
+      image.alt = galleryImages[index].alt;
+    }
+    lightbox?.classList.remove("hidden");
+    lightbox?.classList.add("flex");
+    document.body.style.overflow = "hidden";
+  };
+
+  const close = () => {
+    lightbox?.classList.add("hidden");
+    lightbox?.classList.remove("flex");
+    document.body.style.overflow = "auto";
+  };
+
+  document.querySelectorAll<HTMLButtonElement>("[data-open]").forEach((button) => {
+    button.addEventListener("click", () => open(Number(button.dataset.open)));
+  });
+  lightbox?.querySelector("[data-close]")?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    close();
+  });
+  lightbox?.addEventListener("click", (event) => {
+    if (event.target === lightbox) close();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (lightbox?.classList.contains("hidden")) return;
+    if (event.key === "Escape") close();
+    if (event.key === "ArrowRight") open((current + 1) % galleryImages.length);
+    if (event.key === "ArrowLeft") open((current - 1 + galleryImages.length) % galleryImages.length);
+  });
+</script>

@@ -1,0 +1,37 @@
+---
+import Icons from "./Icons.astro";
+import { site } from "../data/content";
+---
+
+<section class="container mx-auto px-4 py-16 dark:text-white">
+  <div class="mb-12 text-center">
+    <h2 class="text-4xl font-bold text-gray-900 dark:text-white">My Heart for Worship</h2>
+    <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">Founded by Tendai to help people encounter God's love and presence</p>
+  </div>
+
+  <div class="mx-auto max-w-3xl rounded-2xl bg-gradient-to-r from-green-50 to-yellow-50 p-8 shadow-lg dark:from-green-900/50 dark:to-yellow-900/50">
+    <div class="flex flex-col items-center text-center">
+      <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-green-600 to-red-600 text-white">
+        <Icons name="music" class="h-8 w-8" />
+      </div>
+      <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Vision</h3>
+      <p class="mt-4 text-gray-700 dark:text-gray-300">
+        Tendai desires to see the young and old encounter God's love and presence through the call of true worship. Through her ministry, she aims to pour out God's presence in this generation and in a fallen world.
+      </p>
+      <div class="mt-6 flex flex-col items-center gap-4">
+        <div class="mt-2 flex gap-4">
+          <a href={site.social.youtube} class="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md transition-transform hover:scale-110 dark:bg-gray-800" aria-label="My Heart for Worship on YouTube">
+            <Icons name="youtube" class="h-5 w-5 text-red-600" />
+          </a>
+          <a href={site.social.instagram} class="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md transition-transform hover:scale-110 dark:bg-gray-800" aria-label="My Heart for Worship on Instagram">
+            <Icons name="instagram" class="h-5 w-5 text-pink-600" />
+          </a>
+          <a href={site.social.facebookMinistry} class="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md transition-transform hover:scale-110 dark:bg-gray-800" aria-label="My Heart for Worship on Facebook">
+            <Icons name="facebook" class="h-5 w-5 text-blue-600" />
+          </a>
+        </div>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Follow My Heart for Worship</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,156 @@
+---
+import Icons from "./Icons.astro";
+import { securityQuestions, site } from "../data/content";
+
+const questionIndex = Math.floor(Math.random() * securityQuestions.length);
+const question = securityQuestions[questionIndex];
+---
+
+<section id="contact" class="bg-gradient-to-br from-green-100 to-yellow-100 py-16 dark:from-green-900 dark:to-yellow-900">
+  <div class="container mx-auto px-4">
+    <div class="mb-12 text-center">
+      <h2 class="text-4xl font-bold text-gray-900 dark:text-white">Get in Touch</h2>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">For bookings, collaborations, merchandise orders, or any inquiries</p>
+    </div>
+
+    <div class="mx-auto max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-800">
+      <div class="mb-6 hidden rounded-lg p-4" data-form-status></div>
+      <form class="space-y-4" data-contact-form data-whatsapp={site.whatsapp}>
+        <div>
+          <label for="name" class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            placeholder="Your name"
+            required
+          />
+        </div>
+        <div>
+          <label for="email" class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            placeholder="Your email"
+            required
+          />
+        </div>
+        <div>
+          <label for="securityAnswer" class="mb-1 flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <Icons name="shield" class="h-4 w-4 text-green-600" />
+            {question.question}
+          </label>
+          <input type="hidden" name="securityQuestionIndex" value={questionIndex} />
+          <input
+            type="text"
+            id="securityAnswer"
+            name="securityAnswer"
+            class="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            placeholder="Your answer"
+            required
+          />
+        </div>
+        <div class="honeypot-field" aria-hidden="true">
+          <label for="website">Website (Leave this empty)</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <div>
+          <label for="message" class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            class="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            placeholder="Your message (include merchandise order details if applicable)"
+            required></textarea>
+        </div>
+        <button
+          type="submit"
+          class="w-full rounded-md bg-gradient-to-r from-green-600 to-red-600 px-4 py-2 font-medium text-white hover:from-green-700 hover:to-red-700 disabled:opacity-70"
+          data-submit
+        >
+          Message on WhatsApp
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { verifySecurityAnswer } from "../data/content";
+
+  const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+  const status = document.querySelector<HTMLElement>("[data-form-status]");
+  const whatsappNumber = form?.dataset.whatsapp || "260961776878";
+
+  const showStatus = (success: boolean, message: string) => {
+    if (!status) return;
+    status.classList.remove(
+      "hidden",
+      "bg-green-100",
+      "text-green-800",
+      "bg-red-100",
+      "text-red-800",
+      "dark:bg-green-900/50",
+      "dark:text-green-200",
+      "dark:bg-red-900/50",
+      "dark:text-red-200",
+    );
+    status.classList.add(
+      success
+        ? "bg-green-100"
+        : "bg-red-100",
+      success ? "text-green-800" : "text-red-800",
+      success ? "dark:bg-green-900/50" : "dark:bg-red-900/50",
+      success ? "dark:text-green-200" : "dark:text-red-200",
+    );
+    status.innerHTML = `<div class="flex items-center gap-2"><span>${message}</span></div>`;
+  };
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!status) return;
+
+    const data = new FormData(form);
+    const honeypot = String(data.get("website") || "");
+    const name = String(data.get("name") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const message = String(data.get("message") || "").trim();
+    const questionIndex = Number.parseInt(String(data.get("securityQuestionIndex") || ""), 10);
+    const securityAnswer = String(data.get("securityAnswer") || "");
+
+    if (honeypot.length > 0) {
+      showStatus(true, "Your message has been sent successfully!");
+      form.reset();
+      return;
+    }
+
+    if (name.length < 2) {
+      showStatus(false, "Name must be at least 2 characters.");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showStatus(false, "Please enter a valid email address.");
+      return;
+    }
+
+    if (message.length < 10) {
+      showStatus(false, "Message must be at least 10 characters.");
+      return;
+    }
+
+    if (Number.isNaN(questionIndex) || !verifySecurityAnswer(questionIndex, securityAnswer)) {
+      showStatus(false, "Please provide the correct answer to the security question.");
+      return;
+    }
+
+    const text = encodeURIComponent(`Hello Tendai,\n\nName: ${name}\nEmail: ${email}\n\n${message}`);
+    window.open(`https://wa.me/${whatsappNumber}?text=${text}`, "_blank", "noopener,noreferrer");
+    showStatus(true, "WhatsApp should open with your message ready to send.");
+    form.reset();
+  });
+</script>

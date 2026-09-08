@@ -1,0 +1,33 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div class:list={["relative", className]} data-theme-toggle>
+  <button
+    type="button"
+    data-theme-trigger
+    class="inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-current backdrop-blur-sm transition hover:bg-white/20"
+    aria-label="Toggle theme"
+  >
+    <svg class="h-5 w-5 dark:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+    </svg>
+    <svg class="hidden h-5 w-5 dark:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>
+    </svg>
+    <span class="sr-only">Toggle theme</span>
+  </button>
+  <div
+    data-theme-menu
+    class="absolute right-0 z-30 mt-2 hidden min-w-32 overflow-hidden rounded-lg border border-gray-200 bg-white py-1 text-sm text-gray-800 shadow-lg dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+  >
+    <button type="button" data-theme="light" class="block w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-800">Light</button>
+    <button type="button" data-theme="dark" class="block w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-800">Dark</button>
+    <button type="button" data-theme="system" class="block w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-800">System</button>
+  </div>
+</div>

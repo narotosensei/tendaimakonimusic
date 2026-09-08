@@ -1,0 +1,102 @@
+---
+import Icons from "./Icons.astro";
+import MusicPlatforms from "./MusicPlatforms.astro";
+import { tracks } from "../data/content";
+
+const singles = tracks.filter((track) => track.tab === "singles");
+const upcoming = tracks.filter((track) => track.tab === "upcoming");
+---
+
+<section id="music" class="bg-gradient-to-br from-green-900 to-red-900 py-16 text-white dark:from-green-800 dark:to-red-800">
+  <div class="container mx-auto px-4">
+    <div class="mb-12 text-center">
+      <h2 class="text-4xl font-bold">Music</h2>
+      <p class="mt-4 text-lg text-white/80">Listen to Tendai's powerful worship songs</p>
+    </div>
+
+    <div class="mx-auto max-w-5xl" data-tabs>
+      <div class="mx-auto grid w-full max-w-md grid-cols-2 overflow-hidden rounded-lg bg-white/10 p-1">
+        <button type="button" class="rounded-md bg-white px-4 py-2 font-medium text-green-900" data-tab="singles">Singles</button>
+        <button type="button" class="rounded-md px-4 py-2 font-medium text-white/80 hover:text-white" data-tab="upcoming">Upcoming</button>
+      </div>
+
+      <div class="mt-8" data-panel="singles">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {
+            singles.map((track) => (
+              <article class="overflow-hidden rounded-xl bg-white/10 backdrop-blur-sm">
+                <div class="aspect-square overflow-hidden bg-black/20">
+                  <img src={track.cover} alt={`${track.title} - Tendai Makoni`} class="h-full w-full object-cover transition-transform hover:scale-105" />
+                </div>
+                <div class="p-4">
+                  <h3 class="text-xl font-bold text-gray-200 dark:text-white">{track.title}</h3>
+                  <p class="text-sm text-white/70">{track.subtitle}</p>
+                  <div class="mt-4 flex items-center justify-between">
+                    <a href={track.listenUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md bg-white/20 px-3 py-1.5 text-sm text-white hover:bg-white/30">
+                      <Icons name="play" class="h-4 w-4" /> Listen
+                    </a>
+                    <span class="text-sm font-medium">{track.duration}</span>
+                  </div>
+                  <MusicPlatforms class="mt-4" spotify={track.spotify} apple={track.apple} youtube={track.youtube} boomplay={track.boomplay} />
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="mt-8 hidden" data-panel="upcoming">
+        {
+          upcoming.length > 0 ? (
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {upcoming.map((track) => (
+                <article class="overflow-hidden rounded-xl bg-white/10 backdrop-blur-sm">
+                  <div class="aspect-square overflow-hidden bg-black/20">
+                    <img src={track.cover} alt={`${track.title} featuring Aaron Beach`} class="h-full w-full object-cover transition-transform hover:scale-105" />
+                  </div>
+                  <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-200 dark:text-white">{track.title}</h3>
+                    <p class="text-sm text-white/70">{track.subtitle}</p>
+                    <div class="mt-4 flex items-center justify-between">
+                      <a href={track.listenUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md bg-white/20 px-3 py-1.5 text-sm text-white hover:bg-white/30">
+                        <Icons name="play" class="h-4 w-4" /> Listen
+                      </a>
+                      <span class="text-sm font-medium">{track.duration}</span>
+                    </div>
+                    <MusicPlatforms class="mt-4" spotify={track.spotify} apple={track.apple} youtube={track.youtube} boomplay={track.boomplay} />
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div class="rounded-lg bg-white/10 p-6 text-center backdrop-blur-sm">
+              <h3 class="text-xl font-medium">New Music Coming Soon</h3>
+              <p class="mt-2 text-white/70">Stay tuned for Tendai's upcoming releases. Follow her on social media for announcements.</p>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector("[data-tabs]");
+  const buttons = root?.querySelectorAll<HTMLButtonElement>("[data-tab]");
+  const panels = root?.querySelectorAll<HTMLElement>("[data-panel]");
+
+  buttons?.forEach((button) => {
+    button.addEventListener("click", () => {
+      const tab = button.dataset.tab;
+      buttons.forEach((item) => {
+        const active = item === button;
+        item.classList.toggle("bg-white", active);
+        item.classList.toggle("text-green-900", active);
+        item.classList.toggle("text-white/80", !active);
+      });
+      panels?.forEach((panel) => {
+        panel.classList.toggle("hidden", panel.dataset.panel !== tab);
+      });
+    });
+  });
+</script>

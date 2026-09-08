@@ -1,0 +1,104 @@
+---
+import "../styles/global.css";
+import { site } from "../data/content";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = `${site.name} | Zambian Gospel Artist & Worshiper`,
+  description = site.description,
+  image = "/images/gallery-november-portrait.jpg",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url).toString();
+const ogImage = new URL(image, site.url).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <meta name="keywords" content="Tendai Makoni, gospel music, Zambian artist, worship, Christian music, gospel singer" />
+    <meta name="creator" content={site.name} />
+    <meta name="publisher" content={site.name} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0d5f3f" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-icon.png" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={`${site.name} - Professional Portrait`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content={site.twitter} />
+    <meta name="twitter:title" content={`${site.name} | Zambian Gospel Artist`} />
+    <meta name="twitter:description" content="Listen to inspiring gospel music from Tendai Makoni Beach, a passionate Zambian worship leader." />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var theme = stored || "system";
+          var resolved =
+            theme === "system"
+              ? window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light"
+              : theme;
+          document.documentElement.classList.toggle("dark", resolved === "dark");
+          document.documentElement.style.colorScheme = resolved;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen bg-gradient-to-b from-green-50 to-red-50 font-sans dark:from-green-950 dark:to-red-950">
+    <slot />
+    <script>
+      function applyTheme(theme: string) {
+        const resolved =
+          theme === "system"
+            ? window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+            : theme;
+        document.documentElement.classList.toggle("dark", resolved === "dark");
+        document.documentElement.style.colorScheme = resolved;
+        localStorage.setItem("theme", theme);
+      }
+
+      document.addEventListener("click", (event) => {
+        const trigger = (event.target as HTMLElement).closest<HTMLElement>("[data-theme-trigger]");
+        if (trigger) {
+          const menu = trigger.parentElement?.querySelector<HTMLElement>("[data-theme-menu]");
+          menu?.classList.toggle("hidden");
+          return;
+        }
+
+        const option = (event.target as HTMLElement).closest<HTMLElement>("[data-theme]");
+        if (option) {
+          applyTheme(option.dataset.theme || "system");
+          document.querySelectorAll("[data-theme-menu]").forEach((menu) => menu.classList.add("hidden"));
+        } else if (!(event.target as HTMLElement).closest("[data-theme-toggle]")) {
+          document.querySelectorAll("[data-theme-menu]").forEach((menu) => menu.classList.add("hidden"));
+        }
+      });
+    </script>
+  </body>
+</html>

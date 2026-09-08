@@ -1,0 +1,79 @@
+---
+import Icons from "./Icons.astro";
+import { merch } from "../data/content";
+---
+
+<section id="merch" class="container mx-auto px-4 py-16">
+  <div class="mb-12 text-center">
+    <h2 class="text-4xl font-bold text-gray-900 dark:text-white">Merch</h2>
+    <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">Carry God's Word with you through our faith-inspired merchandise</p>
+  </div>
+
+  <div class="grid gap-8 md:grid-cols-3">
+    {
+      merch.map((item) => (
+        <article class="overflow-hidden rounded-xl bg-white shadow-lg dark:bg-gray-900">
+          <div class="aspect-square overflow-hidden bg-gray-50 dark:bg-gray-800">
+            <img src={item.image} alt={`${item.title} - ${item.verse}`} class="h-full w-full object-cover transition-transform hover:scale-105" />
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{item.verse}</p>
+            <p class="mt-4 text-gray-700 dark:text-gray-300">{item.description}</p>
+            <a href="#contact" class="order-merch mt-6 inline-flex w-full items-center justify-center rounded-md bg-gradient-to-r from-green-600 to-red-600 px-4 py-2 font-medium text-white hover:from-green-700 hover:to-red-700">
+              <Icons name="bag" class="mr-2 h-4 w-4" /> Order Now
+            </a>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="mt-12 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 p-8 dark:from-amber-900/20 dark:to-orange-900/20">
+    <div class="text-center">
+      <h3 class="text-2xl font-bold text-gray-900 dark:text-white">How to Order</h3>
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        <div class="flex items-start gap-4 text-left">
+          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-300">
+            <Icons name="map" class="h-6 w-6" />
+          </div>
+          <div>
+            <h4 class="font-semibold text-gray-900 dark:text-white">Local Delivery (Lusaka)</h4>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">
+              Contact us to arrange payment and local delivery within Lusaka, Zambia. We'll coordinate with you for convenient pickup or delivery.
+            </p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4 text-left">
+          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300">
+            <Icons name="globe" class="h-6 w-6" />
+          </div>
+          <div>
+            <h4 class="font-semibold text-gray-900 dark:text-white">International Shipping</h4>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">
+              International fulfillment is coming in the near future! Follow our social media for updates on worldwide shipping availability.
+            </p>
+          </div>
+        </div>
+      </div>
+      <a href="#contact" class="order-merch mt-8 inline-flex items-center rounded-md bg-gradient-to-r from-green-600 to-red-600 px-6 py-3 text-lg font-medium text-white hover:from-green-700 hover:to-red-700">
+        <Icons name="mail" class="mr-2 h-5 w-5" /> Contact Us to Order
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll(".order-merch").forEach((link) => {
+    link.addEventListener("click", () => {
+      window.setTimeout(() => {
+        const message = document.querySelector<HTMLTextAreaElement>("#message");
+        if (message) {
+          message.value = "I'm interested in buying merch. ";
+          message.focus();
+          message.setSelectionRange(message.value.length, message.value.length);
+        }
+      }, 400);
+    });
+  });
+</script>

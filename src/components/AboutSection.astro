@@ -1,0 +1,103 @@
+---
+import Icons from "./Icons.astro";
+---
+
+<section class="container mx-auto px-4 py-16">
+  <div class="grid gap-8 md:grid-cols-2 md:gap-12 lg:gap-16">
+    <div class="relative overflow-hidden rounded-2xl border-4 border-white bg-white shadow-xl">
+      <img src="/images/tendai-about-new.jpg" alt="Tendai Makoni" class="h-full w-full object-cover" />
+    </div>
+
+    <div class="flex flex-col justify-center">
+      <div class="inline-flex w-fit items-center rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">
+        <Icons name="music" class="mr-1 h-4 w-4" /> Gospel Artist
+      </div>
+      <h2 class="mt-4 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">About Tendai</h2>
+
+      <div class="mt-6 space-y-4 text-gray-700 dark:text-gray-300" data-about>
+        <p>
+          Tendai Makoni Beach is a dynamic and anointed force in the world of gospel music—a celebrated worship leader, powerful vocalist, recording artist, and dedicated music evangelist. For over a decade, she has faithfully ushered congregations into profound encounters with God, serving as a conduit for His presence. Her mission is clear: to ignite a global movement of true worship that transforms a generation and radiates hope in a fallen world.
+        </p>
+        <p>
+          A proud Zambian of Zimbabwean heritage, Tendai is a passionate African woman of God, celebrating her continent as a cornerstone of His divine purpose. She is happily married to Minister Aaron Beach, a passionate American teacher, author, and gospel minister.
+        </p>
+        <p>
+          As the founder and visionary behind My Heart for Worship, Tendai has created a powerful platform dedicated to advancing the gospel through music. This initiative reflects her deep desire to see individuals of all ages experience the overwhelming love and tangible presence of God through authentic worship.
+        </p>
+        <p>
+          Beyond the microphone, Tendai is a multifaceted professional, excelling as a Communications & Public Relations Specialist, a leadership coach, an Events Planner, a savvy Entrepreneur, and a passionate culinary enthusiast.
+        </p>
+
+        <div data-about-more>
+          <button type="button" class="inline-flex items-center gap-1 pt-2 font-medium text-green-700 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300" data-expand>
+            Read More <Icons name="chevron-down" class="h-4 w-4" />
+          </button>
+        </div>
+
+        <div class="hidden space-y-4" data-expanded>
+          <h3 class="mt-8 text-2xl font-bold text-gray-900 dark:text-white">A Musical Journey Marked by Purpose & Power</h3>
+          <p>Tendai's discography is a collection of divinely inspired anthems, each born from the throne room of God and rooted in the truth of His Word.</p>
+          <div>
+            <h4 class="font-bold text-gray-900 dark:text-white">2018: Twalilila (Heal Our Land)</h4>
+            <p>Her debut single was a powerful cry for revival over Zambia and the nations. Inspired by 2 Chronicles 7:14, this project established her calling to create music that intercedes and transforms.</p>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900 dark:text-white">2023: Isaiah 60</h4>
+            <p>This soaring single was inspired by the prophetic theme "Arise & Shine" from her spiritual father, Bishop Dr. Joseph Imakando. It stands as a bold declaration, reminding believers of the authority God has bestowed upon them.</p>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900 dark:text-white">2024: The Greater Love</h4>
+            <p>A poignant and worshipful masterpiece, this single captures the profound vision of Christ's sacrifice on the cross at Calvary. It reflects her heart behind her acclaimed annual acoustic Christmas worship sessions, which refocus the festive season on its true meaning: celebrating the greatest love story ever told.</p>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900 dark:text-white">2025: Fulfill</h4>
+            <p>Her latest release is a powerful testament to God's unwavering faithfulness. The accompanying music video is a stunning visual narrative that powerfully illustrates how God always fulfills His promises, regardless of the circumstance. (Available now on all music platforms!)</p>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900 dark:text-white">2026: Tendayi Wedding Song</h4>
+            <p>A joyful celebration of covenant love, featuring Minister Aaron Beach. The song captures the beauty of two lives becoming one under God's covering.</p>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900 dark:text-white">On the Horizon</h4>
+            <p>With a vibrant spirit of expectation, Tendai looks forward to God's guidance as she prepares to release her first EP and full-length album in the coming years, promising even more impactful music destined to elevate hearts toward heaven.</p>
+          </div>
+          <button type="button" class="inline-flex items-center gap-1 pt-2 font-medium text-green-700 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300" data-collapse>
+            Show Less <Icons name="chevron-up" class="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-16 rounded-xl bg-gradient-to-r from-amber-100 to-yellow-100 p-8 dark:from-amber-900/20 dark:to-yellow-900/20">
+    <div class="mb-6 flex items-center justify-center gap-2">
+      <Icons name="star" class="h-6 w-6 text-amber-600" />
+      <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Did You Know?</h3>
+      <Icons name="star" class="h-6 w-6 text-amber-600" />
+    </div>
+    <div class="grid items-center gap-8 md:grid-cols-2 md:gap-12">
+      <div class="order-2 md:order-1">
+        <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+          In 2022, Tendai was greatly honored to be a backup singer for renowned Gospel artist <strong>Sinach</strong>, one of the most celebrated worship leaders in the world. This incredible opportunity allowed her to learn from and minister alongside one of her spiritual mentors in the gospel music industry.
+        </p>
+      </div>
+      <div class="order-1 overflow-hidden rounded-xl shadow-lg md:order-2">
+        <img src="/images/sinach-and-tendai.jpg" alt="Tendai Makoni with Gospel artist Sinach" class="h-full w-full object-cover transition-transform hover:scale-105" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const about = document.querySelector("[data-about]");
+  const more = about?.querySelector("[data-about-more]");
+  const expanded = about?.querySelector("[data-expanded]");
+  about?.querySelector("[data-expand]")?.addEventListener("click", () => {
+    more?.classList.add("hidden");
+    expanded?.classList.remove("hidden");
+  });
+  about?.querySelector("[data-collapse]")?.addEventListener("click", () => {
+    more?.classList.remove("hidden");
+    expanded?.classList.add("hidden");
+  });
+</script>

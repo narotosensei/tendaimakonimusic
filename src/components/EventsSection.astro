@@ -1,0 +1,32 @@
+---
+import Icons from "./Icons.astro";
+import { site } from "../data/content";
+---
+
+<section id="events" class="container mx-auto px-4 py-16">
+  <div class="rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 p-1">
+    <div class="rounded-lg bg-white p-8 dark:bg-gray-900">
+      <div class="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
+        <div class="flex-1">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Upcoming Events</h2>
+          <p class="mt-4 text-lg text-gray-700 dark:text-gray-300">
+            Follow our Facebook page for the most up-to-date events and recent news about Tendai Makoni Beach.
+          </p>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="hidden rounded-full bg-blue-100 p-4 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300 md:block">
+            <Icons name="facebook" class="h-8 w-8" />
+          </div>
+          <a
+            href={site.social.facebookMinistry}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md bg-blue-600 px-6 py-3 text-lg font-medium text-white hover:bg-blue-700"
+          >
+            <Icons name="facebook" class="mr-2 h-5 w-5" /> Visit Facebook Page <Icons name="external" class="ml-2 h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

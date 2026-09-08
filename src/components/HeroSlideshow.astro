@@ -1,0 +1,135 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+import Icons from "./Icons.astro";
+import { slides, site } from "../data/content";
+---
+
+<section class="relative h-[85vh] overflow-hidden bg-black">
+  <div class="relative h-full w-full overflow-hidden" data-slideshow>
+    {
+      slides.map((slide, index) => (
+        <div
+          class:list={[
+            "absolute inset-0 h-full w-full transition-opacity duration-1000",
+            index === 0 ? "opacity-100" : "pointer-events-none opacity-0",
+          ]}
+          data-slide
+        >
+          <img src={slide.src} alt={slide.alt} class="absolute inset-0 h-full w-full object-contain" loading={index === 0 ? "eager" : "lazy"} />
+          <div class="absolute inset-0 bg-black/40 mix-blend-multiply"></div>
+        </div>
+      ))
+    }
+
+    <button
+      type="button"
+      class="absolute left-4 top-1/2 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-black/20 text-white backdrop-blur-sm hover:bg-black/40"
+      data-prev
+      aria-label="Previous slide"
+    >
+      <Icons name="chevron-left" class="mx-auto h-6 w-6" />
+    </button>
+    <button
+      type="button"
+      class="absolute right-4 top-1/2 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-black/20 text-white backdrop-blur-sm hover:bg-black/40"
+      data-next
+      aria-label="Next slide"
+    >
+      <Icons name="chevron-right" class="mx-auto h-6 w-6" />
+    </button>
+
+    <div class="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+      {
+        slides.map((_, index) => (
+          <button
+            type="button"
+            class:list={["h-2 rounded-full transition-all", index === 0 ? "w-6 bg-white" : "w-2 bg-white/50 hover:bg-white/80"]}
+            data-dot
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="container pointer-events-none relative z-20 mx-auto flex h-full flex-col items-center justify-end px-4 pb-24 text-center">
+    <div class="pointer-events-auto absolute right-4 top-4 text-white">
+      <ThemeToggle />
+    </div>
+    <p class="mt-4 text-xl font-medium text-white md:text-2xl">{site.tagline}</p>
+    <div class="pointer-events-auto mt-8 flex flex-wrap justify-center gap-4">
+      <a href="#music" class="inline-flex items-center rounded-md bg-white/90 px-6 py-3 text-lg font-medium text-green-800 hover:bg-white">
+        <Icons name="headphones" class="mr-2 h-5 w-5" /> Listen Now
+      </a>
+      <a href="#events" class="inline-flex items-center rounded-md border border-white bg-transparent px-6 py-3 text-lg font-medium text-white hover:bg-white/10">
+        <Icons name="calendar" class="mr-2 h-5 w-5" /> Upcoming Events
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-slideshow]");
+  if (root) {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-slide]"));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-dot]"));
+    let current = 0;
+    let autoplay = true;
+    let resumeTimer: number | undefined;
+    let touchStart = 0;
+    let touchEnd = 0;
+
+    const show = (index: number) => {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("opacity-100", i === current);
+        slide.classList.toggle("opacity-0", i !== current);
+        slide.classList.toggle("pointer-events-none", i !== current);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("w-6", i === current);
+        dot.classList.toggle("bg-white", i === current);
+        dot.classList.toggle("w-2", i !== current);
+        dot.classList.toggle("bg-white/50", i !== current);
+      });
+    };
+
+    const pauseThenResume = () => {
+      autoplay = false;
+      window.clearTimeout(resumeTimer);
+      resumeTimer = window.setTimeout(() => {
+        autoplay = true;
+      }, 10000);
+    };
+
+    root.querySelector("[data-prev]")?.addEventListener("click", () => {
+      show(current - 1);
+      pauseThenResume();
+    });
+    root.querySelector("[data-next]")?.addEventListener("click", () => {
+      show(current + 1);
+      pauseThenResume();
+    });
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        show(index);
+        pauseThenResume();
+      });
+    });
+
+    root.addEventListener("touchstart", (event) => {
+      touchStart = event.targetTouches[0].clientX;
+    });
+    root.addEventListener("touchmove", (event) => {
+      touchEnd = event.targetTouches[0].clientX;
+    });
+    root.addEventListener("touchend", () => {
+      if (touchStart - touchEnd > 50) show(current + 1);
+      if (touchStart - touchEnd < -50) show(current - 1);
+    });
+
+    window.setInterval(() => {
+      if (autoplay) show(current + 1);
+    }, 5000);
+  }
+</script>

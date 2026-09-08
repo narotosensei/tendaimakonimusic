@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.vercel/
+.env
+.env.*
+.DS_Store
+_extract.py
+_listzip.py
+_unzip_src.py
