@@ -1,17 +1,21 @@
 ---
 import "../styles/global.css";
 import { site } from "../data/content";
+import CookieConsent from "../components/CookieConsent.astro";
+import SeoSchema from "../components/SeoSchema.astro";
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
+  preloadImage?: string;
 }
 
 const {
   title = `${site.name} | Zambian Gospel Artist & Worshiper`,
   description = site.description,
   image = "/images/gallery-november-portrait.jpg",
+  preloadImage,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, site.url).toString();
@@ -26,12 +30,14 @@ const ogImage = new URL(image, site.url).toString();
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
-    <meta name="keywords" content="Tendai Makoni, gospel music, Zambian artist, worship, Christian music, gospel singer" />
+    <meta name="keywords" content="Tendai Makoni Beach, Tendai Makoni, gospel music, Zambian artist, worship leader, Christian music, gospel singer, My Heart for Worship, Aariyella Lwendo Beach" />
     <meta name="creator" content={site.name} />
     <meta name="publisher" content={site.name} />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#0d5f3f" />
     <link rel="canonical" href={canonical} />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM information" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
@@ -42,15 +48,19 @@ const ogImage = new URL(image, site.url).toString();
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1600" />
     <meta property="og:image:alt" content={`${site.name} - Professional Portrait`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content={site.twitter} />
     <meta name="twitter:title" content={`${site.name} | Zambian Gospel Artist`} />
-    <meta name="twitter:description" content="Listen to inspiring gospel music from Tendai Makoni Beach, a passionate Zambian worship leader." />
+    <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <meta name="twitter:image:alt" content={`${site.name} - Professional Portrait`} />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} type="image/avif" fetchpriority="high" />}
+    <SeoSchema title={title} description={description} canonical={canonical} image={ogImage} />
     <script is:inline>
       (function () {
         try {
@@ -70,6 +80,7 @@ const ogImage = new URL(image, site.url).toString();
   </head>
   <body class="min-h-screen bg-gradient-to-b from-green-50 to-red-50 font-sans dark:from-green-950 dark:to-red-950">
     <slot />
+    <CookieConsent />
     <script>
       function applyTheme(theme: string) {
         const resolved =

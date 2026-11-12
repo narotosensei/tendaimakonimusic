@@ -5,13 +5,13 @@ export const site = {
   role: "Zambian Gospel Artist",
   url: "https://tendaimakonimusic.com",
   description:
-    "Discover Tendai Makoni Beach, an inspiring Zambian gospel artist. Listen to latest music, view upcoming events, and connect with powerful spiritual worship.",
+    "Discover Tendai Makoni Beach, a Zambian gospel artist, worship leader, and founder of My Heart for Worship. Listen to her music, follow ministry updates, and connect with powerful spiritual worship.",
   email: "tendaimakonimusic@gmail.com",
   whatsapp: "260961776878",
   twitter: "@tendaimakoni",
   social: {
     instagram: "https://www.instagram.com/tendaimakonimusic",
-    youtube: "https://www.youtube.com/@myheartforworship",
+    youtube: "https://www.youtube.com/@myheartforworshiptv",
     facebook: "https://facebook.com/makonitendai",
     facebookMinistry: "https://facebook.com/tendaimyheartforworship",
     x: "https://x.com/makoni18_tendai",
@@ -199,6 +199,26 @@ export const galleryImages: GalleryImage[] = [
   {
     src: "/images/gallery-swing.jpg",
     alt: "Tendai on swing wearing black outfit with colorful African print shawl in park setting",
+  },
+  {
+    src: "/images/gallery-maternity-sunset-hands.jpg",
+    alt: "Tendai Makoni Beach and Minister Aaron Beach holding her baby bump on the beach at sunset",
+  },
+  {
+    src: "/images/gallery-maternity-silhouette.jpg",
+    alt: "Silhouette of Tendai Makoni Beach standing on the beach at sunset during maternity photos",
+  },
+  {
+    src: "/images/gallery-maternity-water.jpg",
+    alt: "Tendai Makoni Beach kneeling in shallow water holding her baby bump in a white dress",
+  },
+  {
+    src: "/images/gallery-maternity-embrace.jpg",
+    alt: "Tendai Makoni Beach and Minister Aaron Beach embracing on the beach at sunset",
+  },
+  {
+    src: "/images/gallery-maternity-walk.jpg",
+    alt: "Tendai Makoni Beach and Minister Aaron Beach walking hand in hand on the beach",
   },
 ];
 

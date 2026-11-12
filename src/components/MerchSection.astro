@@ -1,9 +1,10 @@
 ---
 import Icons from "./Icons.astro";
+import OptimizedImage from "./OptimizedImage.astro";
 import { merch } from "../data/content";
 ---
 
-<section id="merch" class="container mx-auto px-4 py-16">
+<section id="merch" class="content-auto container mx-auto px-4 py-16">
   <div class="mb-12 text-center">
     <h2 class="text-4xl font-bold text-gray-900 dark:text-white">Merch</h2>
     <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">Carry God's Word with you through our faith-inspired merchandise</p>
@@ -14,7 +15,7 @@ import { merch } from "../data/content";
       merch.map((item) => (
         <article class="overflow-hidden rounded-xl bg-white shadow-lg dark:bg-gray-900">
           <div class="aspect-square overflow-hidden bg-gray-50 dark:bg-gray-800">
-            <img src={item.image} alt={`${item.title} - ${item.verse}`} class="h-full w-full object-cover transition-transform hover:scale-105" />
+            <OptimizedImage src={item.image} alt={`${item.title} - ${item.verse}`} class="h-full w-full object-cover transition-transform hover:scale-105" width={600} height={600} sizes="(min-width: 768px) 33vw, 100vw" />
           </div>
           <div class="p-6">
             <h3 class="text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>

@@ -1,15 +1,16 @@
 ---
 import Icons from "./Icons.astro";
+import OptimizedImage from "./OptimizedImage.astro";
 import { galleryImages } from "../data/content";
 ---
 
-<section class="container mx-auto px-4 pb-8">
+<section class="content-auto container mx-auto px-4 pb-8">
   <h3 class="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">Photo Gallery</h3>
   <div class="columns-1 gap-4 sm:columns-2 md:columns-3 lg:columns-4" data-gallery>
     {
       galleryImages.map((image, index) => (
         <button type="button" class="mb-4 block w-full overflow-hidden rounded-lg transition-all hover:opacity-90" data-open={index}>
-          <img src={image.src} alt={image.alt} class="w-full cursor-pointer object-cover" loading="lazy" />
+          <OptimizedImage src={image.src} alt={image.alt} class="w-full cursor-pointer object-cover" loading="lazy" sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw" />
         </button>
       ))
     }
@@ -25,6 +26,7 @@ import { galleryImages } from "../data/content";
 
 <script>
   import { galleryImages } from "../data/content";
+  import { imageVariants } from "../lib/images";
 
   const lightbox = document.querySelector<HTMLElement>("[data-lightbox]");
   const image = document.querySelector<HTMLImageElement>("[data-lightbox-image]");
@@ -33,7 +35,7 @@ import { galleryImages } from "../data/content";
   const open = (index: number) => {
     current = index;
     if (image) {
-      image.src = galleryImages[index].src;
+      image.src = imageVariants(galleryImages[index].src).webp;
       image.alt = galleryImages[index].alt;
     }
     lightbox?.classList.remove("hidden");

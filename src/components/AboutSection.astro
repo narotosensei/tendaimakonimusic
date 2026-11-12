@@ -1,11 +1,12 @@
 ---
 import Icons from "./Icons.astro";
+import OptimizedImage from "./OptimizedImage.astro";
 ---
 
 <section class="container mx-auto px-4 py-16">
   <div class="grid gap-8 md:grid-cols-2 md:gap-12 lg:gap-16">
     <div class="relative overflow-hidden rounded-2xl border-4 border-white bg-white shadow-xl">
-      <img src="/images/tendai-about-new.jpg" alt="Tendai Makoni" class="h-full w-full object-cover" />
+      <OptimizedImage src="/images/tendai-about-new.jpg" alt="Tendai Makoni" class="h-full w-full object-cover" width={800} height={1000} sizes="(min-width: 768px) 50vw, 100vw" />
     </div>
 
     <div class="flex flex-col justify-center">
@@ -27,6 +28,9 @@ import Icons from "./Icons.astro";
         <p>
           Beyond the microphone, Tendai is a multifaceted professional, excelling as a Communications & Public Relations Specialist, a leadership coach, an Events Planner, a savvy Entrepreneur, and a passionate culinary enthusiast.
         </p>
+        <p>
+          On November 29th, 2026 Tendai and her husband welcomed their beautiful daughter, Aariyella Lwendo Beach, into the world.
+        </p>
 
         <div data-about-more>
           <button type="button" class="inline-flex items-center gap-1 pt-2 font-medium text-green-700 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300" data-expand>
@@ -38,7 +42,7 @@ import Icons from "./Icons.astro";
           <h3 class="mt-8 text-2xl font-bold text-gray-900 dark:text-white">A Musical Journey Marked by Purpose & Power</h3>
           <p>Tendai's discography is a collection of divinely inspired anthems, each born from the throne room of God and rooted in the truth of His Word.</p>
           <div>
-            <h4 class="font-bold text-gray-900 dark:text-white">2018: Twalilila (Heal Our Land)</h4>
+            <h4 class="font-bold text-gray-900 dark:text-white">2022: Twalilila (Heal Our Land)</h4>
             <p>Her debut single was a powerful cry for revival over Zambia and the nations. Inspired by 2 Chronicles 7:14, this project established her calling to create music that intercedes and transforms.</p>
           </div>
           <div>
@@ -82,7 +86,7 @@ import Icons from "./Icons.astro";
         </p>
       </div>
       <div class="order-1 overflow-hidden rounded-xl shadow-lg md:order-2">
-        <img src="/images/sinach-and-tendai.jpg" alt="Tendai Makoni with Gospel artist Sinach" class="h-full w-full object-cover transition-transform hover:scale-105" />
+        <OptimizedImage src="/images/sinach-and-tendai.jpg" alt="Tendai Makoni with Gospel artist Sinach" class="h-full w-full object-cover transition-transform hover:scale-105" width={800} height={600} sizes="(min-width: 768px) 50vw, 100vw" />
       </div>
     </div>
   </div>

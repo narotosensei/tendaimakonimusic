@@ -1,0 +1,129 @@
+---
+---
+
+<div
+  id="cookie-banner"
+  class="fixed inset-x-0 bottom-0 z-[80] hidden border-t border-white/20 bg-gray-900/95 p-4 text-white shadow-2xl backdrop-blur-md"
+  role="dialog"
+  aria-labelledby="cookie-title"
+  aria-describedby="cookie-copy"
+>
+  <div class="container mx-auto flex max-w-5xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div class="md:pr-6">
+      <h2 id="cookie-title" class="text-lg font-semibold">Cookies</h2>
+      <p id="cookie-copy" class="mt-1 text-sm text-gray-300">
+        We use cookies to gauge site performance.
+      </p>
+    </div>
+    <div class="flex shrink-0 flex-wrap gap-3">
+      <button
+        type="button"
+        data-cookie-accept
+        class="rounded-md bg-gradient-to-r from-green-600 to-red-600 px-4 py-2 text-sm font-medium text-white hover:from-green-700 hover:to-red-700"
+      >
+        OK
+      </button>
+      <button
+        type="button"
+        data-cookie-reject
+        class="rounded-md border border-white/30 px-4 py-2 text-sm font-medium text-white hover:bg-white/10"
+      >
+        No thanks
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var KEY = "cookie-consent";
+    var CLARITY_ID = "yfbcaw0iym";
+    var GA_ID = "G-3K65NXL4PB";
+    var AUTO_ACCEPT_MS = 60000;
+    var autoAcceptTimer = null;
+
+    function loadClarity() {
+      if (window.clarity) return;
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", CLARITY_ID);
+    }
+
+    function loadAnalytics() {
+      if (window.gtag) return;
+      var script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+      document.head.appendChild(script);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () {
+        window.dataLayer.push(arguments);
+      };
+      window.gtag("js", new Date());
+      window.gtag("config", GA_ID, { anonymize_ip: true });
+    }
+
+    function clearAutoAccept() {
+      if (autoAcceptTimer) {
+        clearTimeout(autoAcceptTimer);
+        autoAcceptTimer = null;
+      }
+    }
+
+    function startAutoAccept() {
+      clearAutoAccept();
+      autoAcceptTimer = setTimeout(function () {
+        applyConsent("accepted");
+      }, AUTO_ACCEPT_MS);
+    }
+
+    function applyConsent(value) {
+      clearAutoAccept();
+      try {
+        localStorage.setItem(KEY, value);
+      } catch (e) {}
+      var banner = document.getElementById("cookie-banner");
+      if (banner) banner.classList.add("hidden");
+      if (value === "accepted") {
+        loadClarity();
+        loadAnalytics();
+      }
+    }
+
+    function showBanner(startTimer) {
+      var banner = document.getElementById("cookie-banner");
+      if (banner) banner.classList.remove("hidden");
+      if (startTimer) startAutoAccept();
+    }
+
+    document.addEventListener("click", function (event) {
+      var target = event.target.closest("[data-cookie-accept], [data-cookie-reject], [data-cookie-open]");
+      if (!target) return;
+      if (target.hasAttribute("data-cookie-accept")) applyConsent("accepted");
+      if (target.hasAttribute("data-cookie-reject")) applyConsent("rejected");
+      if (target.hasAttribute("data-cookie-open")) {
+        showBanner(false);
+      }
+    });
+
+    var stored = null;
+    try {
+      stored = localStorage.getItem(KEY);
+    } catch (e) {}
+
+    if (stored === "accepted") {
+      applyConsent("accepted");
+    } else if (stored !== "rejected") {
+      showBanner(true);
+    }
+  })();
+</script>

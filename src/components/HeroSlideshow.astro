@@ -1,7 +1,10 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
 import Icons from "./Icons.astro";
+import OptimizedImage from "./OptimizedImage.astro";
 import { slides, site } from "../data/content";
+
+const first = slides[0];
 ---
 
 <section class="relative h-[85vh] overflow-hidden bg-black">
@@ -14,8 +17,19 @@ import { slides, site } from "../data/content";
             index === 0 ? "opacity-100" : "pointer-events-none opacity-0",
           ]}
           data-slide
+          data-src={slide.src}
+          data-alt={slide.alt}
         >
-          <img src={slide.src} alt={slide.alt} class="absolute inset-0 h-full w-full object-contain" loading={index === 0 ? "eager" : "lazy"} />
+          {index === 0 && first ? (
+            <OptimizedImage
+              src={first.src}
+              alt={first.alt}
+              class="absolute inset-0 h-full w-full object-contain"
+              loading="eager"
+              fetchpriority="high"
+              sizes="100vw"
+            />
+          ) : null}
           <div class="absolute inset-0 bg-black/40 mix-blend-multiply"></div>
         </div>
       ))
@@ -79,8 +93,25 @@ import { slides, site } from "../data/content";
     let touchStart = 0;
     let touchEnd = 0;
 
+    const hydrate = (slide: HTMLElement) => {
+      if (slide.querySelector("img")) return;
+      const src = slide.dataset.src;
+      const alt = slide.dataset.alt || "";
+      if (!src) return;
+      const base = src.replace(/\.(jpe?g|png)$/i, "");
+      const picture = document.createElement("picture");
+      picture.innerHTML = `
+        <source srcset="${base}.avif" type="image/avif">
+        <source srcset="${base}.webp" type="image/webp">
+        <img src="${src}" alt="${alt}" class="absolute inset-0 h-full w-full object-contain" loading="lazy" decoding="async">
+      `;
+      slide.prepend(picture);
+    };
+
     const show = (index: number) => {
       current = (index + slides.length) % slides.length;
+      hydrate(slides[current]);
+      hydrate(slides[(current + 1) % slides.length]);
       slides.forEach((slide, i) => {
         slide.classList.toggle("opacity-100", i === current);
         slide.classList.toggle("opacity-0", i !== current);
@@ -101,6 +132,8 @@ import { slides, site } from "../data/content";
         autoplay = true;
       }, 10000);
     };
+
+    if (slides[1]) hydrate(slides[1]);
 
     root.querySelector("[data-prev]")?.addEventListener("click", () => {
       show(current - 1);

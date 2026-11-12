@@ -10,8 +10,8 @@ export default defineConfig({
     inlineStylesheets: "auto",
   },
   prefetch: {
-    prefetchAll: true,
-    defaultStrategy: "viewport",
+    prefetchAll: false,
+    defaultStrategy: "hover",
   },
   vite: {
     plugins: [tailwindcss()],

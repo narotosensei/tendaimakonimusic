@@ -1,13 +1,14 @@
 ---
 import Icons from "./Icons.astro";
 import MusicPlatforms from "./MusicPlatforms.astro";
+import OptimizedImage from "./OptimizedImage.astro";
 import { tracks } from "../data/content";
 
 const singles = tracks.filter((track) => track.tab === "singles");
 const upcoming = tracks.filter((track) => track.tab === "upcoming");
 ---
 
-<section id="music" class="bg-gradient-to-br from-green-900 to-red-900 py-16 text-white dark:from-green-800 dark:to-red-800">
+<section id="music" class="content-auto bg-gradient-to-br from-green-900 to-red-900 py-16 text-white dark:from-green-800 dark:to-red-800">
   <div class="container mx-auto px-4">
     <div class="mb-12 text-center">
       <h2 class="text-4xl font-bold">Music</h2>
@@ -26,7 +27,7 @@ const upcoming = tracks.filter((track) => track.tab === "upcoming");
             singles.map((track) => (
               <article class="overflow-hidden rounded-xl bg-white/10 backdrop-blur-sm">
                 <div class="aspect-square overflow-hidden bg-black/20">
-                  <img src={track.cover} alt={`${track.title} - Tendai Makoni`} class="h-full w-full object-cover transition-transform hover:scale-105" />
+                  <OptimizedImage src={track.cover} alt={`${track.title} - Tendai Makoni`} class="h-full w-full object-cover transition-transform hover:scale-105" width={600} height={600} sizes="(min-width: 1024px) 25vw, 50vw" />
                 </div>
                 <div class="p-4">
                   <h3 class="text-xl font-bold text-gray-200 dark:text-white">{track.title}</h3>
@@ -52,7 +53,7 @@ const upcoming = tracks.filter((track) => track.tab === "upcoming");
               {upcoming.map((track) => (
                 <article class="overflow-hidden rounded-xl bg-white/10 backdrop-blur-sm">
                   <div class="aspect-square overflow-hidden bg-black/20">
-                    <img src={track.cover} alt={`${track.title} featuring Aaron Beach`} class="h-full w-full object-cover transition-transform hover:scale-105" />
+                    <OptimizedImage src={track.cover} alt={`${track.title} featuring Aaron Beach`} class="h-full w-full object-cover transition-transform hover:scale-105" width={600} height={600} sizes="(min-width: 1024px) 25vw, 50vw" />
                   </div>
                   <div class="p-4">
                     <h3 class="text-xl font-bold text-gray-200 dark:text-white">{track.title}</h3>

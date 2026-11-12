@@ -1,0 +1,110 @@
+---
+import { site, tracks } from "../data/content";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  image: string;
+}
+
+const { title, description, canonical, image } = Astro.props;
+
+const toIsoDuration = (duration: string) => {
+  const [minutes, seconds] = duration.split(":").map(Number);
+  return `PT${minutes}M${seconds}S`;
+};
+
+const sameAs = [
+  site.social.instagram,
+  site.social.youtube,
+  site.social.facebook,
+  site.social.facebookMinistry,
+  site.social.x,
+];
+
+const person = {
+  "@type": "Person",
+  "@id": `${site.url}/#person`,
+  name: site.name,
+  alternateName: ["Tendai Makoni", "Tendai Makoni Beach"],
+  description,
+  url: site.url,
+  image,
+  jobTitle: "Gospel Artist & Worship Leader",
+  nationality: "Zambian",
+  email: site.email,
+  telephone: "+260961776878",
+  sameAs,
+  knowsAbout: ["Gospel music", "Worship leading", "Christian music", "Zambian music"],
+  spouse: {
+    "@type": "Person",
+    name: "Aaron Beach",
+    jobTitle: "Minister",
+  },
+  children: {
+    "@type": "Person",
+    name: "Aariyella Lwendo Beach",
+    givenName: "Aariyella Lwendo",
+    familyName: "Beach",
+    birthDate: "2026-11-29",
+  },
+};
+
+const musicGroup = {
+  "@type": "MusicGroup",
+  "@id": `${site.url}/#artist`,
+  name: site.name,
+  url: site.url,
+  image,
+  genre: ["Gospel", "Worship", "Christian"],
+  sameAs,
+  member: { "@id": `${site.url}/#person` },
+};
+
+const recordings = tracks
+  .filter((track) => track.tab === "singles")
+  .map((track) => ({
+    "@type": "MusicRecording",
+    name: track.title,
+    byArtist: { "@id": `${site.url}/#artist` },
+    duration: toIsoDuration(track.duration),
+    url: track.listenUrl,
+    image: new URL(track.cover, site.url).toString(),
+    inLanguage: "en",
+    ...(track.spotify || track.apple || track.youtube
+      ? {
+          sameAs: [track.spotify, track.apple, track.youtube, track.boomplay].filter(Boolean),
+        }
+      : {}),
+  }));
+
+const website = {
+  "@type": "WebSite",
+  "@id": `${site.url}/#website`,
+  name: site.shortName,
+  url: site.url,
+  description,
+  inLanguage: "en",
+  publisher: { "@id": `${site.url}/#person` },
+};
+
+const webpage = {
+  "@type": "WebPage",
+  "@id": `${canonical}#webpage`,
+  url: canonical,
+  name: title,
+  description,
+  isPartOf: { "@id": `${site.url}/#website` },
+  about: { "@id": `${site.url}/#person` },
+  primaryImageOfPage: image,
+  inLanguage: "en",
+};
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [person, musicGroup, website, webpage, ...recordings],
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
